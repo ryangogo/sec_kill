@@ -6,60 +6,28 @@
     seckill_id, user_phone, state, create_time
   </sql>
   <insert id="insert" parameterType="com.seckill.pojo.SuccessKilled" >
-    insert into success_killed (seckill_id, user_phone, state, 
-      create_time)
-    values (#{seckillId,jdbcType=BIGINT}, #{userPhone,jdbcType=BIGINT}, #{state,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    <!--主键冲突，报错-->
+    insert ignore into success_killed (seckill_id, user_phone)
+    values (#{seckillId,jdbcType=BIGINT}, #{userPhone,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.seckill.pojo.SuccessKilled" >
-    insert into success_killed
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="seckillId != null" >
-        seckill_id,
-      </if>
-      <if test="userPhone != null" >
-        user_phone,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="seckillId != null" >
-        #{seckillId,jdbcType=BIGINT},
-      </if>
-      <if test="userPhone != null" >
-        #{userPhone,jdbcType=BIGINT},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=TINYINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.seckill.pojo.SuccessKilled" >
-    update success_killed
-    <set >
-      <if test="state != null" >
-        state = #{state,jdbcType=TINYINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where seckill_id = #{seckillId,jdbcType=BIGINT}
-      and user_phone = #{userPhone,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.seckill.pojo.SuccessKilled" >
-    update success_killed
-    set state = #{state,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where seckill_id = #{seckillId,jdbcType=BIGINT}
-      and user_phone = #{userPhone,jdbcType=BIGINT}
-  </update>
+  <select id="selectByIdWithSeckillId" parameterType="long" resultType="com.seckill.pojo.SuccessKilled">
+    <!-- 根据id查询SuccessKilled并携带seckill实体-->
+    <!-- 如何告诉mybatis把结果映射到SuccessKilled统摄映射seckill属性:双引号里加别名-->
+    SELECT
+      sk.seckill_id,sk.user_phone,sk.create_time,sk.state,
+      s.seckill_id "seckill.seckillId",
+      s.name "seckill.name",
+      s.number "seckill.number",
+      s.create_time "seckill.createTime",
+      s.start_time "seckill.startTime",
+      s.end_time "seckill.endTime"
+    FROM
+      success_killed sk
+    INNER JOIN
+      seckill s
+    ON
+      sk.seckill_id = s.seckill_id
+    WHERE
+      sk.seckill_id = #{seckillId}
+  </select>
 </mapper>
