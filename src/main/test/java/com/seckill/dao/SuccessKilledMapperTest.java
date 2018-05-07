@@ -29,7 +29,7 @@ public class SuccessKilledMapperTest {
 
     @Test
     public void testSelectByIdWithSeckillId() throws Exception {
-        SuccessKilled successKilled = successKilledMapper.selectByIdWithSeckillId(1000L);
+        SuccessKilled successKilled = successKilledMapper.selectByIdWithSeckillId(1000L,13528372836L);
         System.out.println(successKilled);
         //SuccessKilled{seckillId=1000, userPhone=13528372837, state=-1, createTime=Sun May 06 10:25:20 CST 2018, seckill=Seckill{seckillId=1000, name='1000元秒杀苹果8', number=100, createTime=Sat May 05 12:04:04 CST 2018, startTime=Thu Nov 01 00:00:00 CST 2018, endTime=Mon Nov 02 00:00:00 CST 2015}}
 

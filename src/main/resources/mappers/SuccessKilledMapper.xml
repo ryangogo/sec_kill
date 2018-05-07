@@ -29,5 +29,7 @@
       sk.seckill_id = s.seckill_id
     WHERE
       sk.seckill_id = #{seckillId}
+    and
+      sk.user_phone = #{userPhone}
   </select>
 </mapper>

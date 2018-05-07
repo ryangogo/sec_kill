@@ -18,7 +18,7 @@ public interface SuccessKilledMapper {
      * @param seckillId
      * @return
      */
-    SuccessKilled selectByIdWithSeckillId(long seckillId);
+    SuccessKilled selectByIdWithSeckillId(@Param("seckillId")long seckillId,@Param("userPhone") long userPhone);
 
 
 
